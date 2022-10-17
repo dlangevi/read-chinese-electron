@@ -1,5 +1,7 @@
 # read-chinese
 
+This has been depreciated in favor of tauri, since I want to work on learning rust
+
 ## Dependencies
 ```
 yarn
