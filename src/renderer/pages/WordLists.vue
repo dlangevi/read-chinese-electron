@@ -8,6 +8,9 @@
         <n-button type="primary" @click="importAnki">
           Sync from Anki
         </n-button>
+        <n-button type="primary" @click="loadHsk">
+          Toggle Hsk 4 words
+        </n-button>
       </n-space>
     </div>
     <div class="flex flex-col w-full h-full">
@@ -17,7 +20,7 @@
       </div>
       <unknown-words
         class="w-5/6 mx-auto h-full flex-grow"
-        showDefinitions
+        :loadHsk="showHsk"
       />
     </div>
   </div>
@@ -26,6 +29,9 @@
 <script lang="ts" setup>
 import { NButton, NSpace } from 'naive-ui';
 import UnknownWords from '@components/UnknownWords.vue';
+import { ref } from 'vue';
+
+const showHsk = ref(false);
 
 function importCSV() {
   window.ipc.importCSVWords();
@@ -33,6 +39,10 @@ function importCSV() {
 
 function importAnki() {
   window.ipc.importAnkiKeywords();
+}
+
+function loadHsk() {
+  showHsk.value = !showHsk.value;
 }
 </script>
 

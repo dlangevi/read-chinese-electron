@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { onBeforeMount, ref } from 'vue';
+import { watch, onBeforeMount, ref } from 'vue';
 import { AgGridVue } from 'ag-grid-vue3';
 import MarkLearned from '@components/MarkLearned.vue';
 import AddToCardQueue from '@components/AddToCardQueue.vue';
@@ -23,6 +23,7 @@ const UserSettings = getUserSettings();
 
 const props = defineProps<{
   bookFilter?: number,
+  loadHsk?: boolean,
 }>();
 
 const getRowId = (params:GetRowIdParams) => params.data.word;
@@ -102,8 +103,22 @@ columnDefs.push(
 );
 
 const rowData = ref<any[]>([]);
+watch(() => props.loadHsk, async (loadHsk) => {
+  console.log('I updated', loadHsk);
+  if (loadHsk) {
+    rowData.value = await window.ipc.hskWords();
+  } else if (props.bookFilter !== undefined) {
+    rowData.value = await window.ipc.learningTarget([props.bookFilter]);
+  } else {
+    rowData.value = await window.ipc.learningTarget();
+  }
+});
+
 onBeforeMount(async () => {
-  if (props.bookFilter !== undefined) {
+  console.log('before mount');
+  if (props.loadHsk) {
+    rowData.value = await window.ipc.hskWords();
+  } else if (props.bookFilter !== undefined) {
     rowData.value = await window.ipc.learningTarget([props.bookFilter]);
   } else {
     rowData.value = await window.ipc.learningTarget();
