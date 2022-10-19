@@ -86,6 +86,10 @@ export function isKnown(word:string) {
   return (word in known) && known[word].interval >= knownInterval;
 }
 
+export function isJustKnown(word:string) {
+  return (word in known);
+}
+
 export function isKnownChar(char:string) {
   return knownCharacters.has(char);
 }

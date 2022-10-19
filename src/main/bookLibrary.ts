@@ -4,7 +4,7 @@ import type {
 import {
   initBookStats,
 } from '@/shared/types';
-import { isKnown, isKnownChar } from './knownWords';
+import { isKnown, isKnownChar, isJustKnown } from './knownWords';
 import { loadJieba } from './segmentation';
 import { getDefaultDefinition, getPinyin } from './dictionaries';
 import {
@@ -778,7 +778,7 @@ async function hskWords() {
     '座位',
   ];
 
-  return words.filter((word:string) => !isKnown(word))
+  return words.filter((word:string) => !isJustKnown(word))
     .map((word:string) => {
       const row:any = {};
       row.word = word;
