@@ -6,7 +6,7 @@ import {
 } from '@/shared/types';
 import path from 'path';
 import fs from 'fs';
-import { isKnown, isKnownChar, isJustKnown } from './knownWords';
+import { isKnown, isKnownChar } from './knownWords';
 import { loadJieba } from './segmentation';
 import {
   dbGetBooks, dbGetBookById, dbAddBook, dbBookExists, dbSaveWordTable,
@@ -181,7 +181,7 @@ async function hskWords(version:HskVersion, level:HskLevel)
   const words = txt.split('\n');
   return words
     .map((word) => word.trim())
-    .filter((word:string) => !isJustKnown(word))
+    .filter((word:string) => !isKnown(word))
     .filter((word:string) => word.length > 0)
     .map((word:string) => ({
       word,

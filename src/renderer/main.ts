@@ -10,6 +10,7 @@ import GlobalSettings from '@/renderer/pages/GlobalSettings.vue';
 import UserStats from '@/renderer/pages/UserStats.vue';
 import WordLists from '@/renderer/pages/WordLists.vue';
 import FlashCards from '@/renderer/pages/FlashCards.vue';
+import MakeCards from '@/renderer/pages/MakeCards.vue';
 import BookStats from '@/renderer/pages/BookStats.vue';
 
 import App from './App.vue';
@@ -50,6 +51,11 @@ const router = createRouter({
       path: '/FlashCards',
       name: 'FlashCards',
       component: FlashCards,
+    },
+    {
+      path: '/MakeCards',
+      name: 'MakeCards',
+      component: MakeCards,
     },
     {
       path: '/book/:bookId',

@@ -16,7 +16,7 @@ import { release } from 'os';
 import { join } from 'path';
 
 import { initIpcMain } from '@/shared/ipcLoader';
-import { syncWords, checkWords } from './knownWords';
+import { syncWords } from './knownWords';
 import { loadDictionaries } from './dictionaries';
 import { preloadWords } from './segmentation';
 import {
@@ -106,12 +106,11 @@ app.whenReady().then(async () => {
   console.log('create Window...');
   await createWindow();
   console.log('load dictionaries ...');
-  await loadDictionaries();
+  loadDictionaries();
   console.log('preload words ...');
   await preloadWords();
   console.log('done ...');
   console.timeEnd('bootup');
-  checkWords();
 });
 
 app.on('window-all-closed', () => {

@@ -1,6 +1,5 @@
 <template>
   <div>
-    Look at these stats!
     <div
       class="
         grid
@@ -13,7 +12,6 @@
         ">
       <n-statistic label="Known Words" :value="words" />
       <n-statistic label="Known Characters" :value="characters" />
-      <n-statistic label="Wack words" :value="wack" />
       <n-statistic label="Total words read" :value="totalWords" />
     </div>
   </div>
@@ -31,7 +29,6 @@ const { totalWords } = readWords;
 const {
   words,
   characters,
-  wack,
 } = wordStats;
 
 </script>

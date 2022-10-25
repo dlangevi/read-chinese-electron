@@ -1,7 +1,6 @@
 import { dialog } from 'electron';
 import fs from 'fs';
 import type { KnownWords } from '@/shared/types';
-import { isInDictionary } from './dictionaries';
 import {
   dbLoadWords, dbUpdateWord, dbUpdateWords, getOptionValue,
 } from './database';
@@ -26,18 +25,7 @@ function wordStats() {
   return {
     words: Object.keys(known).length,
     characters: knownCharacters.size,
-    wack: checkWords(),
   };
-}
-
-export function checkWords() {
-  let wackWords = 0;
-  Object.keys(known).forEach((word) => {
-    if (!isInDictionary(word)) {
-      wackWords += 1;
-    }
-  });
-  return wackWords;
 }
 
 // For now the db code will update the word set here on each addition.
@@ -82,11 +70,11 @@ export function updateInterval() {
   knownInterval = getOptionValue('KnownInterval', 100);
 }
 
-export function isKnown(word:string) {
+export function isWellKnown(word:string) {
   return (word in known) && known[word].interval >= knownInterval;
 }
 
-export function isJustKnown(word:string) {
+export function isKnown(word:string) {
   return (word in known);
 }
 
