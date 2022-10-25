@@ -12,18 +12,22 @@
 <script lang="ts" setup>
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { watch, onBeforeMount, ref } from 'vue';
+import {
+  watch, onBeforeMount, ref, toRaw,
+} from 'vue';
 import { AgGridVue } from 'ag-grid-vue3';
 import MarkLearned from '@components/MarkLearned.vue';
 import AddToCardQueue from '@components/AddToCardQueue.vue';
 import { getUserSettings } from '@/renderer/UserSettings';
 import type { GetRowIdParams, GridReadyEvent, ColDef } from 'ag-grid-community';
+import type { UnknownWordEntry } from '@/shared/types';
 
 const UserSettings = getUserSettings();
 
 const props = defineProps<{
+  words: UnknownWordEntry[],
+  // Should be something like booksource
   bookFilter?: number,
-  loadHsk?: boolean,
 }>();
 
 const getRowId = (params:GetRowIdParams) => params.data.word;
@@ -103,26 +107,14 @@ columnDefs.push(
 );
 
 const rowData = ref<any[]>([]);
-watch(() => props.loadHsk, async (loadHsk) => {
-  console.log('I updated', loadHsk);
-  if (loadHsk) {
-    rowData.value = await window.ipc.hskWords();
-  } else if (props.bookFilter !== undefined) {
-    rowData.value = await window.ipc.learningTarget([props.bookFilter]);
-  } else {
-    rowData.value = await window.ipc.learningTarget();
-  }
+watch(() => props.words, async (newWords) => {
+  rowData.value = await window.ipc.getDefinitions(toRaw(newWords));
+  console.log('new Words', rowData.value);
 });
 
 onBeforeMount(async () => {
-  console.log('before mount');
-  if (props.loadHsk) {
-    rowData.value = await window.ipc.hskWords();
-  } else if (props.bookFilter !== undefined) {
-    rowData.value = await window.ipc.learningTarget([props.bookFilter]);
-  } else {
-    rowData.value = await window.ipc.learningTarget();
-  }
+  const rawWords = toRaw(props.words);
+  rowData.value = await window.ipc.getDefinitions(rawWords);
   console.log(rowData);
 });
 </script>
