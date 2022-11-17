@@ -20,6 +20,11 @@
       "from": "node_modules/nodejieba/dict/",
       "to": "resources/dict/",
       "filter": "**/*",
+    },
+    {
+      "from": "src/assets/HSK",
+      "to": "resources/HSK/",
+      "filter": "**/*",
     }
   ],
   "mac": {

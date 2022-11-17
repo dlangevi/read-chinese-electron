@@ -172,7 +172,10 @@ export async function learningTarget(bookIds?:number[])
 
 async function hskWords(version:HskVersion, level:HskLevel)
   : Promise<UnknownWordEntry[]> {
-  const hskPath = path.join('./src/assets/HSK/', version, `L${level}.txt`);
+  const prefix = import.meta.env.MODE === 'production'
+    ? path.join(process.resourcesPath, 'HSK')
+    : './src/assets/HSK/';
+  const hskPath = path.join(prefix, version, `L${level}.txt`);
   const txt = await fs.promises.readFile(hskPath, {
     encoding: 'utf-8',
     flag: 'r',

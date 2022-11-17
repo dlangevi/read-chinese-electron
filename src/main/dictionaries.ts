@@ -51,6 +51,7 @@ export function loadDictionaries() {
       }
       dictionary[word].push(term);
     });
+    console.log(name, Object.keys(dictionary).length);
     dicts[name] = {
       dictionary,
       type: entry.type,

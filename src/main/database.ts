@@ -17,9 +17,9 @@ export const knex = Knex(knexConfig);
 
 // This is called and awaited before before anyother code can run
 export async function initializeDatabase() {
-  await knex.migrate.latest().catch((err) => {
-    console.log(err);
-  });
+  // await knex.migrate.latest().catch((err) => {
+  //   console.log(err);
+  // });
 }
 
 interface MetaData {
@@ -47,6 +47,7 @@ const metadataSchema : Schema<MetaData> = {
 // Dictionaries and User settings can be stored in electron-store
 // since they are low footprint
 const metadataStore = new Store({
+  // name: 'metadata-electron',
   name: 'metadata',
   schema: metadataSchema,
 });

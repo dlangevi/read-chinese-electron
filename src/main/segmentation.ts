@@ -29,14 +29,19 @@ async function computeDict() {
     input: inputStream,
     terminal: false,
   });
+  let exists = 0;
+  let lines = 0;
   lineReader.on('line', (line) => {
     const items = line.split(' ');
     const [word] = items;
+    lines += 1;
     if (isInDictionary(word)) {
       outputStream.write(`${line}\n`);
+      exists += 1;
     }
   });
   await once(lineReader, 'close');
+  console.log(exists, lines);
 
   if (import.meta.env.MODE === 'production') {
     // The default dict doesn't load from the asar archive for some reason
